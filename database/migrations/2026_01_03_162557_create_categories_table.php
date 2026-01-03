@@ -15,6 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->timestamps();
+            $table->string('title');
+            $table->longText('content');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+             $table->string('slug')->unique();
+             $table->string('thumbnail')->nullable();
+             $table->string('images')->nullable();
+            $table->timestamp('published_at')->nullable();
         });
     }
 
