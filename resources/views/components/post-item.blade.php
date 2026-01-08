@@ -6,7 +6,7 @@
 
     <a href="#">
         <img class="rounded-base w-full aspect-[16/9] object-cover"
-            src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
+            src="{{ $post->image }}" alt="Post image" />
     </a>
 
     <a href="#">
@@ -24,7 +24,7 @@
 
     <a href="#"
         class="text-white inline-flex items-center
-              bg-blue-600 hover:bg-blue-500
+              bg-black hover:bg-neutral-900
               shadow-xs font-medium
               text-xs md:text-sm
               px-3 py-2 md:px-4 md:py-2.5
