@@ -2,6 +2,10 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <x-slot:header>
+            <h1 class="font-bold text-3xl">Create an Account</h1>
+        </x-slot>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

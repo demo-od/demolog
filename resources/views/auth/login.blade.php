@@ -3,10 +3,13 @@
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
-        <h1 class="text-center text-3xl mb-4 font-bold">Welcome back</h1>
+        
         @csrf
 
         <!-- Email Address -->
+        <x-slot:header>
+            <h1 class="font-bold text-3xl">Welcome Back</h1>
+        </x-slot>
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
