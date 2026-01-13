@@ -1,0 +1,1 @@
+<img {{ $attributes }} src="{{ asset('default.jfif') }}" alt="Default image">

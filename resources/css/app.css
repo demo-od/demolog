@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.circle-container {
+  width: 150px;       /* Desired size of the circle */
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;   /* Hides the parts of the image outside the circle */
+}
+
+.circle-container img {
+  width: 100%;        /* Image fills the container width */
+  height: 100%;       /* Image fills the container height */
+  object-fit: cover;  /* Crops and scales the image to cover the area without stretching */
+  object-position: center; /* Centers the image within the container */
+}

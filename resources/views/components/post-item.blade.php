@@ -3,32 +3,25 @@
            p-4 md:p-6
            mx-3 md:mx-0
            border border-default rounded-base shadow-xs">
-
-    <a href="#">
         <img class="rounded-base w-full aspect-[16/9] object-cover"
             src="{{ $post->image }}" alt="Post image" />
-    </a>
-
-    <a href="#">
         <h5
             class="mt-4 md:mt-6 mb-2
                    text-lg md:text-2xl
                    font-semibold tracking-tight text-heading">
             {{ $post->title }}
         </h5>
-    </a>
 
     <p class="mb-4 md:mb-6 text-sm md:text-base text-body">
         {{ Str::words($post->content, 20) }}
     </p>
 
-    <a href="#"
-        class="text-white inline-flex items-center
-              bg-black hover:bg-neutral-900
-              shadow-xs font-medium
-              text-xs md:text-sm
-              px-3 py-2 md:px-4 md:py-2.5
-              rounded-lg focus:outline-none">
+    <a href="{{ route('post.show',[
+    'username' => $post->user->username,
+    'post' => $post,
+    ]) }}"
+        class="inline-flex items-center px-4 py-2 bg-black border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-neutral-900 focus:bg-neutral-900 active:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-700 focus:ring-offset-2 transition ease-in-out duration-150
+              ">
 
         Read more
 

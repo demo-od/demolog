@@ -162,4 +162,66 @@ class ProfileController extends Controller
 
         return $stored;
     }
+
+    /**
+     * Delete the authenticated user's avatar from Cloudinary and clear DB fields.
+     *
+     * Behavior:
+     * - If the user has no avatar (neither image_public_id nor image), the method
+     *   simply redirects back with a "no-avatar" status.
+     * - Attempts deletion using the Storage disk (driver). If that fails, falls
+     *   back to the Cloudinary SDK destroy() (if installed) to allow invalidation.
+     * - Clears the user's `image` and `image_public_id` fields and saves the user.
+     *
+     * Returns a RedirectResponse back to the previous page with a status key.
+     */
+    public function destroyAvatar(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        // If there's nothing to delete, return early.
+        if (empty($user->image_public_id) && empty($user->image)) {
+            return Redirect::back()->with('status', 'no-avatar');
+        }
+
+        // Choose the stored identifier: prefer explicit public_id, otherwise the full URL
+        $storedValue = $user->image_public_id ?: $user->image;
+
+        // Make sure we have a clean public_id suitable for the delete call
+        $publicId = $this->extractCloudinaryPublicId($storedValue);
+
+        // Try driver delete first (must pass a string)
+        $deleted = false;
+        try {
+            $deleted = Storage::disk('cloudinary')->delete($publicId);
+        } catch (\Throwable $e) {
+            $deleted = false;
+        }
+
+        // Fallback to SDK destroy() if the driver delete did not succeed
+        if (! $deleted && class_exists(\Cloudinary\Cloudinary::class)) {
+            try {
+                $cloudinary = new \Cloudinary\Cloudinary([
+                    'cloud' => [
+                        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                        'api_key'    => env('CLOUDINARY_API_KEY'),
+                        'api_secret' => env('CLOUDINARY_API_SECRET'),
+                    ],
+                ]);
+
+                // Use 'invalidate' => true to clear CDN caches if desired.
+                $cloudinary->uploadApi()->destroy($publicId, ['invalidate' => true]);
+                // We don't rely on the return payload here — proceed to clear DB fields regardless.
+            } catch (\Throwable $e) {
+                // Swallow exceptions intentionally (no logging) to avoid leaking details to users.
+            }
+        }
+
+        // Clear avatar fields in DB regardless of remote delete result (keeps local state consistent)
+        $user->image = null;
+        $user->image_public_id = null;
+        $user->save();
+
+        return Redirect::back()->with('status', 'avatar-deleted');
+    }
 }
