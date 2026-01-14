@@ -13,20 +13,13 @@
                 <h1 class="text-4xl font-bold mb-4">{{ $post->title }}</h1>
                 {{-- User Avatar --}}
                 <div class="flex gap-4">
-                    @if ($post->user->image)
-                        <div class="circle-container">
-                            <img src="{{ $post->user->image }}" class="w-12 h-12" />
-                        </div>
-                    @else
-                        <x-default-image class="w-12 h-12 -mr-2" />
-                    @endif
+                    <x-user-avatar :user="$post->user" />
                     {{-- User Avatar End --}}
-
-                </div>
-                <div>
+                    <div>
 
                     <div class="flex gap-2">
-                        <h3>{{ $post->user->name }}</h3>
+                        <a href="{{ route('profile.show', $post->user) }}" 
+                            class="hover:underline">{{ $post->user->name }}</a>
                         &middot;
                         <a href="#" class="text-emerald-500">Follow</a>
                     </div>
@@ -39,6 +32,9 @@
                     </div>
                 </div>
 
+                </div>
+    
+                
 
                 {{-- Clap Section --}}
 
