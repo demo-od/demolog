@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
@@ -11,10 +12,10 @@ Route::get('/', function () {
 
 
 
-Route::middleware(['auth', 'verified'])->group(function() {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
 
-    
+
     Route::get('/', [PostController::class, 'index'])->name('dashboard');
 
     Route::post('/post', [PostController::class, 'store'])->name('posts.store');
@@ -28,8 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])->name('avatar.destroy');
+
+
+    Route::get('/@{user:username}', [PublicProfileController::class, 'show'])->name('profile.show');
+
+    Route::post('/follow/{user:username}', [FollowerController::class, 'followUnfollow'])->name('follow'); 
 });
 
-Route::get('/@{user:username}', [PublicProfileController::class, 'show'])->name('profile.show');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

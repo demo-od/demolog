@@ -47,5 +47,8 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+        <div class="mt-2">
+           <span class="text-gray-500"> Don't have an account?</span> <a href="/register" class="text-blue-600 hover:text-blue-500">Sign up</a>
+        </div>
     </form>
 </x-guest-layout>
