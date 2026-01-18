@@ -9,10 +9,8 @@
     followersCount: {{ $fcount }},
     follow() {
         this.following = !this.following
-
         axios.post('/follow/{{ $user->username }}')
             .then(res => {
-                console.log(res.data)
                 this.followersCount = res.data.followersCount
             })
             .catch(err => console.log(err))

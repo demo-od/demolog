@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\FollowerController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\PublicProfileController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/@{user:username}', [PublicProfileController::class, 'show'])->name('profile.show');
 
     Route::post('/follow/{user:username}', [FollowerController::class, 'followUnfollow'])->name('follow'); 
+
+     Route::post('/like/{post}', [LikeController::class, 'like'])->name('like'); 
 });
 
 

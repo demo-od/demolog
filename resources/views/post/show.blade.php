@@ -46,8 +46,10 @@
 
                 {{-- Clap Section --}}
 
-                {{-- Clap Section End --}}
-                    <x-clap-button />
+               
+                    <x-clap-button :post="$post"/>
+
+                     {{-- Clap Section End --}}
                 {{-- Content Section --}}
                 <div class="mt-8">
                     <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-full">
@@ -63,7 +65,7 @@
                         $post->category->name }}</span>
                 </div>
 
-                <x-clap-button />
+              {{-- Comment Section --}}
             </div>
 
         </div>

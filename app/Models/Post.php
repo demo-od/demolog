@@ -25,4 +25,9 @@ class Post extends Model
         $minutes = ceil($wordCount / $readingSpeed);
         return max(1, $minutes);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }
