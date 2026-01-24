@@ -49,7 +49,7 @@
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
 
-                    <x-submitButton >
+                    <x-submitButton>
                         SUBMIT
                     </x-submitButton>
                 </form>

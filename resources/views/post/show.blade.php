@@ -13,43 +13,44 @@
                 <h1 class="text-4xl font-bold mb-4">{{ $post->title }}</h1>
                 {{-- User Avatar --}}
                 <div class="flex gap-4">
-                    @if($post->user->image)
+                    @if ($post->user->image)
                         <img src="{{ $post->user->image }}" alt="" class="w-12 h-12">
-                    @else 
-                        <x-default-image class="w-12 h-12"/>
+                    @else
+                        <x-default-image class="w-12 h-12" />
                     @endif
                     {{-- User Avatar End --}}
                     <div>
 
-                    <x-FollowCtr :user="$post->user" class="flex gap-2 ">
-                        <a href="{{ route('profile.show', $post->user) }}" 
-                            class="hover:underline">{{ $post->user->name }}</a>
-                        &middot;
-                        <button href="#" x-text="following ? 'Unfollow' : 'Follow'"
-                         :class="following ? 'text-red-600' : 'text-emerald-500'"
-                         @click="follow()">
-                           
-                        </button>
-                    </x-FollowCtr>
-                    <div class="flex gap-2">
-                        <span class="text-gray-500 text-sm">{{ $post->readTime() }} min read
-                            &middot;
-                            {{ $post->created_at->format('M d, Y') }}
-                        </span>
+                        <x-FollowCtr :user="$post->user" class="flex gap-2 ">
+                            <a href="{{ route('profile.show', $post->user) }}"
+                                class="hover:underline">{{ $post->user->name }}</a>
+                            @if (auth()->user()->id != $post->user->id)
+                                &middot;
+                                <button href="#" x-text="following ? 'Unfollow' : 'Follow'"
+                                    :class="following ? 'text-red-600' : 'text-emerald-500'" @click="follow()">
+                            @endif
 
+                            </button>
+                        </x-FollowCtr>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500 text-sm">{{ $post->readTime() }} min read
+                                &middot;
+                                {{ $post->created_at->format('M d, Y') }}
+                            </span>
+
+                        </div>
                     </div>
-                </div>
 
                 </div>
-    
-                
+
+
 
                 {{-- Clap Section --}}
 
-               
-                    <x-clap-button :post="$post"/>
 
-                     {{-- Clap Section End --}}
+                <x-clap-button :post="$post" />
+
+                {{-- Clap Section End --}}
                 {{-- Content Section --}}
                 <div class="mt-8">
                     <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-full">
@@ -61,13 +62,60 @@
                 {{-- content section end  --}}
 
                 <div class="mt-8">
-                    <span class="bg-gray-200 rounded-2xl py-2 px-4 ">{{ 
-                        $post->category->name }}</span>
+                    <span class="bg-gray-200 rounded-2xl py-2 px-4 ">{{ $post->category->name }}</span>
                 </div>
+                <form action="{{ route('post.comment', $post) }}" method="post">
+                    @csrf
+                    <div class="mt-5">
+                        <hr>
+                        <div class="flex items-center justify-center gap-2">
+                            <input type="text" name="content" id="content" value="{{ old('content') }}"
+                                placeholder="Leave a comment"
+                                class="w-full rounded-md
+        @error('content')
+            ring-2 ring-red-500 
+        @else
+            border-gray-300 focus:border-neutral-700 focus:ring-neutral-700
+        @enderror
+    ">
 
-              {{-- Comment Section --}}
+                            <x-submitButton class="mb-4 max-w-10 max-h-10">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+
+                            </x-submitButton>
+                        </div>
+                        @error('content')
+                            <p class="text-sm -mt-2 text-red-600">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                        <div>
+                            @forelse ($post->comments as $comment)
+                                <div class="border-t p-2 flex flex-col">
+                                    <div class="flex flex-row gap-2">
+                                        @if($comment->user->image)
+                                            <img src="{{ $comment->user->image }}" class="w-6 h-6" alt="">
+                                        @else 
+                                            <x-default-image class="w-8 h-8 -m-1" />
+                                        @endif
+                                        {{ $comment->user->username }}
+                                    </div>
+                                    {{ $comment->content }}
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        {{ $comment->created_at->format('Y-m-d') }}
+                                    </div>
+
+
+                                </div>
+
+                            @empty
+                                <div>No comments</div>
+                            @endforelse
+                        </div>
+                </form>
             </div>
-
         </div>
+
+    </div>
     </div>
 </x-app-layout>

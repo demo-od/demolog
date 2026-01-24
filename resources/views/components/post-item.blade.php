@@ -12,9 +12,17 @@
             {{ $post->title }}
         </h5>
 
-    <p class="mb-4 md:mb-6 text-sm md:text-base text-body">
+    <p class="mb-2 md:mb-2 text-sm md:text-base text-body">
         {{ Str::words($post->content, 20) }}
     </p>
+
+    <div class="mb-2 text-gray-500 flex gap-4">
+         <span class="text-sm">
+            by {{ $post->user->username }} on {{ $post->created_at->format('M d, Y') }}
+         </span>
+
+         
+    </div>
 
     <a href="{{ route('post.show',[
     'username' => $post->user->username,
@@ -23,7 +31,7 @@
         class="inline-flex items-center px-4 py-2 bg-black border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-neutral-900 focus:bg-neutral-900 active:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-700 focus:ring-offset-2 transition ease-in-out duration-150
               ">
 
-        Read more
+        Read full post
 
         <svg class="w-4 h-4 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24">
@@ -31,4 +39,5 @@
                 d="M19 12H5m14 0-4 4m4-4-4-4" />
         </svg>
     </a>
+   
 </div>

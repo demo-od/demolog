@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Support\Str;
 use function Ramsey\Uuid\v1;
 use Illuminate\Http\Request;
@@ -21,13 +22,29 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->paginate(10);
-        return view('post.index', compact('posts'));
-    }
+        $user = auth()->user();
+        $query = Post::with('user');
 
-    /**
-     * Show the form for creating a new resource.
-     */
+        if ($user) {
+            $followingIds = $user->following()->pluck('users.id')->toArray();
+
+            if (!empty($followingIds)) {
+                // Convert IDs to a comma-separated string for the SQL IN clause
+                $idList = implode(',', $followingIds);
+
+                // If user_id is in the list, give it priority (0), otherwise (1)
+                // Then sort by that priority ASC (0 comes before 1)
+                $query->orderByRaw("CASE WHEN user_id IN ($idList) THEN 0 ELSE 1 END");
+            }
+        }
+
+        // Secondary sort: Newest posts first within those groups
+        $posts = $query->latest()->paginate(10);
+
+        return view('post.index', compact('posts'));
+    } /**
+      * Show the form for creating a new resource.
+      */
     public function create()
     {
         $categories = Category::all();
@@ -70,7 +87,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $username,Post $post)
+    public function show(string $username, Post $post)
     {
         return view('post.show', compact('post'));
     }
@@ -97,5 +114,42 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function category(Category $category)
+    {
+        $user = auth()->user();
+        $query = $category->posts(); // Start with the category's posts
+
+        if ($user) {
+            $followingIds = $user->following()->pluck('users.id')->toArray();
+
+            if (!empty($followingIds)) {
+                $idList = implode(',', array_map('intval', $followingIds));
+
+                // Use CASE for SQLite compatibility
+                $query->orderByRaw("CASE WHEN user_id IN ($idList) THEN 0 ELSE 1 END");
+            }
+        }
+
+        // Apply chronological sort and paginate
+        $posts = $query->latest()->paginate(10);
+
+        return view('post.index', compact('posts', 'category'));
+    }
+    public function Comment(Request $request, Post $post)
+    {
+        $request->validate([
+            'content' => 'required|string|max:50',
+        ]);
+
+        Comment::create([
+            'content' => $request->content,
+            'user_id' => auth()->id(),
+            'post_id' => $post->id,
+        ]);
+
+        return back();
+
     }
 }

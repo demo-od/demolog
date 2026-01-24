@@ -2,8 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <script src="./assets/vendor/lodash/lodash.min.js"></script>
-    <script src="./assets/vendor/dropzone/dist/dropzone-min.js"></script>
+    <script src="https://kit.fontawesome.com/9c4181398c.js" crossorigin="anonymous"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">

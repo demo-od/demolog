@@ -23,7 +23,7 @@
             {{ $header }}
         @endif
 
-        <div class="w-full max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg">
+        <div class="w-full max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg mb-4">
             {{ $slot }}
         </div>
     </div>

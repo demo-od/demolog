@@ -24,12 +24,6 @@
 
             <div class="flex">
 
-                <div class="flex items-center ">
-                    <a href="{{ route('post.create') }}"
-                        class="inline-flex items-center px-4 py-2 bg-black border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-neutral-900 focus:bg-neutral-900 active:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-700 focus:ring-offset-2 transition ease-in-out duration-150">Create
-                        Post</a>
-
-                </div>
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -50,7 +44,15 @@
                         </x-slot>
 
                         <x-slot name="content">
+                            <x-dropdown-link :href="route('post.create')">
+                    {{ __('Create Post') }}
+                </x-dropdown-link>
+
                             <x-dropdown-link :href="route('profile.edit')">
+                                {{ __('Settings') }}
+                            </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('profile.show', auth()->user())">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
@@ -98,9 +100,18 @@
             </div>
 
             <div class="mt-3 space-y-1">
+               <x-responsive-nav-link :href="route('post.create')">
+                    {{ __('Create Post') }}
+                </x-responsive-nav-link>
+
                 <x-responsive-nav-link :href="route('profile.edit')">
+                    {{ __('Settings') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('profile.show', auth()->user())">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

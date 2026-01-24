@@ -16,12 +16,16 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
 
+    Route::get('/category/{category}', [PostController::class, 'category'])->name('post.byCategory');
+
 
     Route::get('/', [PostController::class, 'index'])->name('dashboard');
 
     Route::post('/post', [PostController::class, 'store'])->name('posts.store');
 
     Route::get('/@{username}/{post:slug}', [PostController::class, 'show'])->name('post.show');
+
+    Route::post('/comment/{post}', [PostController::class, 'comment'])->name('post.comment');
 });
 
 

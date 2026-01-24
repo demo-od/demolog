@@ -3,7 +3,7 @@
         @csrf
 
         <x-slot:header>
-            <h1 class="font-bold text-3xl">Create an Account</h1>
+            <h1 class="font-bold text-3xl mt-6">Create an Account</h1>
         </x-slot>
 
         <!-- Name -->
@@ -50,14 +50,19 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <div>
+            
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+         <x-submitButton class="w-full">
+            REGISTER
+         </x-submitButton>
+
+        </div>
+        <div class="mt-2">
+            Already registered?
+            <a class="underline text-blue-600 hover:text-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                {{ __('Log In') }}
+            </a>
         </div>
     </form>
 </x-guest-layout>

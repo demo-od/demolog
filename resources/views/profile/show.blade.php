@@ -17,7 +17,7 @@
                         <h1 class="text-3xl font-bold mt-4">{{ $user->name }}</h1>
                         <p class="text-gray-500">
                             <span x-text="followersCount"></span> 
-                            <span x-text="following==1 ? 'follower' : 'followers'"></span>
+                            <span x-text="followersCount==1 ? 'follower' : 'followers'"></span>
                         </p>
                         <p class="text-gray-500 max-w-lg mt-2">
                             {{ $user->bio }}
