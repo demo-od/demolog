@@ -1,31 +1,25 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}"
-                        class="text-white bg-black
-          flex items-center justify-center
-          rounded-md
-          w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12
-          p-2 sm:p-2.5 lg:p-3">
-
+                        class="text-white bg-black flex items-center justify-center rounded-md w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 p-2 sm:p-2.5 lg:p-3">
                         <span class="text-[14px] sm:text-[16px] lg:text-[20px] font-semibold">
                             DL
                         </span>
                     </a>
-
                 </div>
-
-
             </div>
 
-            <div class="flex">
+            <div class="flex items-center">
+                <div class="flex items-center ms-auto me-2 sm:me-4">
+                    <button class="text-gray-500 hover:text-gray-700 p-2 transition duration-150 focus:outline-none">
+                        <i class="fa-solid fa-magnifying-glass -mr-2"></i>
+                    </button>
+                </div>
 
-                <!-- Settings Dropdown -->
-                <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <div class="hidden sm:flex sm:items-center sm:ms-2">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -45,8 +39,8 @@
 
                         <x-slot name="content">
                             <x-dropdown-link :href="route('post.create')">
-                    {{ __('Create Post') }}
-                </x-dropdown-link>
+                                {{ __('Create Post') }}
+                            </x-dropdown-link>
 
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Settings') }}
@@ -56,13 +50,10 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
-                            <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-
                                 <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                    onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -70,7 +61,6 @@
                     </x-dropdown>
                 </div>
 
-                <!-- Hamburger -->
                 <div class="-me-2 flex items-center sm:hidden">
                     <button @click="open = ! open"
                         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -88,11 +78,7 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-
-
-        <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -100,7 +86,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-               <x-responsive-nav-link :href="route('post.create')">
+                <x-responsive-nav-link :href="route('post.create')">
                     {{ __('Create Post') }}
                 </x-responsive-nav-link>
 
@@ -112,14 +98,10 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-
-                <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                        onclick="event.preventDefault(); this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

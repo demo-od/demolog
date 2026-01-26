@@ -26,6 +26,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/@{username}/{post:slug}', [PostController::class, 'show'])->name('post.show');
 
     Route::post('/comment/{post}', [PostController::class, 'comment'])->name('post.comment');
+
+    Route::delete('/comment/{comment}', [PostController::class, 'deleteComment'])->name('comment.delete');
+
+    Route::get('/edit/{post:slug}',[PostController::class, 'edit'])->name('post.edit');
+
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
+
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('post.update');
+    
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 });
 
 

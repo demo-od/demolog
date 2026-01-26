@@ -82,13 +82,18 @@ class PostController extends Controller
 
         Post::create($data);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('success', 'Your post was uploaded successfully!');
     }
     /**
      * Display the specified resource.
      */
     public function show(string $username, Post $post)
     {
+        $post->load([
+            'comments' => function ($query) {
+                $query->latest();
+            }
+        ]);
         return view('post.show', compact('post'));
     }
 
@@ -97,7 +102,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        return view('post.edit', compact('post', 'categories'));
     }
 
     /**
@@ -105,7 +111,48 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        // 1. Authorize
+        if (auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        // 2. Validate (Image is now 'nullable' since it's an update)
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required'],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'category' => ['required', 'exists:categories,id'],
+            'published_at' => ['nullable', 'date'],
+        ]);
+
+        // 3. Handle Image Update
+        if ($request->hasFile('image')) {
+            // Delete the old image from Cloudinary
+            if ($post->image_public_id) {
+                try {
+                    Storage::disk('cloudinary')->delete($post->image_public_id);
+                } catch (\Throwable $e) {
+                    // Fail silently or log
+                }
+            }
+
+            // Upload new image
+            $path = Storage::disk('cloudinary')->put('posts', $request->file('image'));
+            $imageUrl = Storage::disk('cloudinary')->url($path);
+
+            $post->image = $imageUrl;
+            $post->image_public_id = $path;
+        }
+
+        // 4. Update the rest of the fields
+        $post->title = $data['title'];
+        $post->content = $data['content'];
+        $post->category_id = $data['category'];
+        $post->slug = Str::slug($data['title']);
+
+        $post->save();
+
+        return redirect()->back()->with('success', 'Post updated successfully!');
     }
 
     /**
@@ -113,13 +160,24 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if (auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        // Delete image from Cloudinary before deleting record
+        if ($post->image_public_id) {
+            Storage::disk('cloudinary')->delete($post->image_public_id);
+        }
+
+        $post->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Your post has been deleted.');
     }
 
     public function category(Category $category)
     {
         $user = auth()->user();
-        $query = $category->posts(); // Start with the category's posts
+        $query = $category->posts()->with('user'); // Start with the category's posts
 
         if ($user) {
             $followingIds = $user->following()->pluck('users.id')->toArray();
@@ -149,7 +207,19 @@ class PostController extends Controller
             'post_id' => $post->id,
         ]);
 
-        return back();
+        return back()->with('success', 'Your comment has been uploaded!');
 
+    }
+
+    public function deleteComment(Comment $comment)
+    {
+        // Check if the user is authorized to delete it
+        if (auth()->id() !== $comment->user_id) {
+            abort(403);
+        }
+
+        $comment->delete();
+
+        return back()->with('success', 'Comment deleted successfully!');
     }
 }

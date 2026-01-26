@@ -1,5 +1,5 @@
 <x-app-layout>
-
+    <x-toast />
     <div class="py-4">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
