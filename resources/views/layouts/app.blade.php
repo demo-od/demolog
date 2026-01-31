@@ -2,6 +2,9 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
     <script src="https://kit.fontawesome.com/9c4181398c.js" crossorigin="anonymous"></script>
     <meta charset="utf-8">
@@ -18,6 +21,23 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        /* This makes the editor match your neutral theme */
+        .editor-toolbar {
+            border-color: #e5e7eb;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .CodeMirror {
+            border-color: #e5e7eb;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .editor-statusbar {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased">

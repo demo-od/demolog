@@ -12,7 +12,7 @@
                         @if ($user->image)
                             <img src="{{ $user->image }}" alt="" class="w-24 h-24">
                         @else
-                            <x-default-image class="w-24 h-24" />
+                            <x-default-image class="w-24 h-24" :name="$user->name" fontSize="4xl"/>
                         @endif
                         <h1 class="text-3xl font-bold mt-4">{{ $user->name }}</h1>
                         <p class="text-gray-500">

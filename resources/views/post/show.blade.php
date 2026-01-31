@@ -20,7 +20,7 @@
                     @if ($post->user->image)
                         <img src="{{ $post->user->image }}" alt="" class="w-12 h-12 rounded-full object-cover">
                     @else
-                        <x-default-image class="w-12 h-12" />
+                        <x-default-image class="w-12 h-12" :name="$post->user->name" />
                     @endif
                     
                     <div>
@@ -49,8 +49,8 @@
                 {{-- Content Section --}}
                 <div class="mt-8">
                     <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-full rounded-lg shadow-sm">
-                    <div class="mt-4 text-lg leading-relaxed text-gray-800">
-                        {{ $post->content }}
+                    <div class="mt-4 text-lg leading-relaxed text-gray-800 prose border-t-2">
+                        {!! Illuminate\Support\Str::markdown($post->content) !!}
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@
                                 @if ($comment->user->image)
                                     <img src="{{ $comment->user->image }}" class="w-6 h-6 rounded-full" alt="">
                                 @else
-                                    <x-default-image class="w-6 h-6" />
+                                    <x-default-image class="w-6 h-6" :name="$comment->user->name" fontSize="xs"/>
                                 @endif
                                 <span class="text-gray-700 font-medium text-sm">{{ $comment->user->username }}</span>
                                 <span class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</span>

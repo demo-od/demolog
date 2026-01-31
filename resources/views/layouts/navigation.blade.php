@@ -14,9 +14,9 @@
 
             <div class="flex items-center">
                 <div class="flex items-center ms-auto me-2 sm:me-4">
-                    <button class="text-gray-500 hover:text-gray-700 p-2 transition duration-150 focus:outline-none">
+                    <a href="{{ route('search') }}"  class="text-gray-500 hover:text-gray-700 p-2 transition duration-150 focus:outline-none">
                         <i class="fa-solid fa-magnifying-glass -mr-2"></i>
-                    </button>
+                    </a>
                 </div>
 
                 <div class="hidden sm:flex sm:items-center sm:ms-2">

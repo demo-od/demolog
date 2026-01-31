@@ -14,7 +14,7 @@
                     @csrf
                     {{-- Image --}}
                     <div class="mb-4">
-                        <x-input-label for="image" :value="__('Image')" />
+                        <x-input-label for="image" :value="__('Cover photo')" />
                         <input required type="file" class="{{ $file_styles }}" name="image" id="image">
                         <x-input-error :messages="$errors->get('image')" class="mt-2" />
                     </div>
@@ -22,7 +22,7 @@
                     {{-- Title --}}
                     <div>
                         <x-input-label for="title" :value="__('Title')" />
-                        <input class="{{ $class }}" id="title" class="block mt-1 w-full" type="text"
+                        <input placeholder="Enter the title" class="{{ $class }}" id="title" class="block mt-1 w-full" type="text"
                             name="title" value="{{ @old('title') }}" required />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
@@ -41,11 +41,25 @@
                         <x-input-error :messages="$errors->get('category')" class="mt-2" />
                     </div>
 
-                    {{-- Content --}}
-                    <div class="mt-4">
+                    {{-- Content with Markdown --}}
+                    <div class="mt-4" x-data="{
+                        init() {
+                            new EasyMDE({
+                                element: this.$refs.editor,
+                                forceSync: true, // Important: updates the textarea so Laravel sees the data
+                                placeholder: 'Type your content',
+                                spellChecker: false,
+                                status: false,
+                                maxHeight: '300px'
+                            });
+                        }
+                    }">
                         <x-input-label for="content" :value="__('Content')" />
-                        <x-textarea class="{{ $class }}" required id="content" class="block mt-1 w-full"
-                            name="content" required>{{ @old('content') }}</x-textarea>
+
+                        <div class="mt-1 block w-full rounded-md shadow-sm">
+                            <textarea x-ref="editor" name="content" id="content">{{ old('content') }}</textarea>
+                        </div>
+
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
 

@@ -19,7 +19,7 @@
 <body class="font-sans text-gray-900 antialiased">
 
     <div class="min-h-screen flex flex-col justify-center items-center px-4 bg-gray-100">
-        @if ($header)
+        @if (isset($header))
             {{ $header }}
         @endif
 
