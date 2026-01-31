@@ -32,5 +32,3 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # 8. Set permissions for Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 9. Clear cache, migrate, and start Apache (ALL IN ONE LINE)
-CMD php artisan config:clear && php artisan cache:clear && php artisan migrate --force && apache2-foreground
