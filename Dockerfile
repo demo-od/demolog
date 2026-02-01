@@ -12,8 +12,13 @@ RUN docker-php-ext-install pdo pdo_pgsql
 # Set working directory
 WORKDIR /var/www
 
-# Copy files
+# Copy files (This includes deploy.sh from your root)
 COPY . .
+
+# Fix Windows Line Endings & Permissions for the script
+RUN apk add --no-cache dos2unix && \
+    dos2unix /var/www/deploy.sh && \
+    chmod +x /var/www/deploy.sh
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -28,6 +33,5 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 # Expose port
 EXPOSE 80
 
-# Use the deploy script
-RUN chmod +x /var/www/deploy.sh
-CMD ["/var/www/deploy.sh"]
+# Use the absolute path
+ENTRYPOINT ["/bin/sh", "/var/www/deploy.sh"]
