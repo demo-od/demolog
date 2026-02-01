@@ -1,5 +1,5 @@
 <?php
-$db_url="postgresql://neondb_owner:endpoint=ep-withered-smoke-ahsgm2ti$npg_73NjSwedGQlY@ep-withered-smoke-ahsgm2ti-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require";
+$db_url='postgresql://neondb_owner:endpoint=ep-withered-smoke-ahsgm2ti$npg_73NjSwedGQlY@ep-withered-smoke-ahsgm2ti-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require';
 use Illuminate\Support\Str;
 
 return [

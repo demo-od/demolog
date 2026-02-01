@@ -28,6 +28,11 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 # Expose port
 EXPOSE 80
 
+# ... inside your Dockerfile ...
+COPY deploy.sh /var/www/deploy.sh
+RUN sed -i 's/\r$//' /var/www/deploy.sh  # This nukes Windows line endings
+RUN chmod +x /var/www/deploy.sh
+
 # Use the deploy script
 RUN chmod +x /var/www/deploy.sh
 CMD ["/var/www/deploy.sh"]
