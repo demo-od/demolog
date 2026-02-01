@@ -16,6 +16,7 @@
                         @endif
                         <h1 class="text-3xl font-bold mt-4">{{ $user->name }}</h1>
                         <p class="text-gray-500">
+                            <span class="mb-2">{{ $user->username }}</span>
                             <span x-text="followersCount"></span> 
                             <span x-text="followersCount==1 ? 'follower' : 'followers'"></span>
                         </p>
