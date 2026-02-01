@@ -15,3 +15,9 @@ php artisan migrate --force
 
 # Re-cache for production performance
 php artisan config:cache
+
+# 1. Start PHP-FPM in the background
+php-fpm -D
+
+# 2. Start Nginx in the foreground (this keeps the container running)
+nginx -g "daemon off;"
