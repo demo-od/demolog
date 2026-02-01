@@ -48,7 +48,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/edit/{post:slug}', [PostController::class, 'edit'])->name('post.edit');
 
-    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
 
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('post.update');
 
