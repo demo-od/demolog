@@ -20,18 +20,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --no-dev --optimize-autoloader
 
 # Setup Nginx config
-COPY nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Expose port
 EXPOSE 80
-
-# ... inside your Dockerfile ...
-COPY deploy.sh /var/www/deploy.sh
-RUN sed -i 's/\r$//' /var/www/deploy.sh  # This nukes Windows line endings
-RUN chmod +x /var/www/deploy.sh
 
 # Use the deploy script
 RUN chmod +x /var/www/deploy.sh
