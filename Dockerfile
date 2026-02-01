@@ -1,37 +1,40 @@
 FROM php:8.2-fpm-alpine
 
-# Install system dependencies
+# 1. Install system dependencies (Added nodejs and npm)
 RUN apk add --no-cache \
     nginx \
     libpq-dev \
-    postgresql-client
+    postgresql-client \
+    dos2unix \
+    nodejs \
+    npm
 
-# Install PHP extensions
+# 2. Install PHP extensions
 RUN docker-php-ext-install pdo pdo_pgsql
 
-# Set working directory
 WORKDIR /var/www
 
-# Copy files (This includes deploy.sh from your root)
+# 3. Copy files
 COPY . .
 
-# Fix Windows Line Endings & Permissions for the script
-RUN apk add --no-cache dos2unix && \
-    dos2unix /var/www/deploy.sh && \
-    chmod +x /var/www/deploy.sh
+# 4. Fix script formatting
+RUN dos2unix /var/www/deploy.sh && chmod +x /var/www/deploy.sh
 
-# Install Composer
+# 5. Install PHP dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Setup Nginx config
+# 6. Build Frontend Assets (This fixes the Vite Error)
+RUN npm install
+RUN npm run build
+
+# 7. Setup Nginx
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 
-# Set permissions
+# 8. Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Expose port
 EXPOSE 80
 
-# Use the absolute path
+# 9. Start Server
 ENTRYPOINT ["/bin/sh", "/var/www/deploy.sh"]
