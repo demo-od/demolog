@@ -1,5 +1,5 @@
 <?php
-
+$db_url="postgresql://neondb_owner:endpoint=ep-withered-smoke-ahsgm2ti$npg_73NjSwedGQlY@ep-withered-smoke-ahsgm2ti-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require";
 use Illuminate\Support\Str;
 
 return [
@@ -85,8 +85,8 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', $db_url),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),
