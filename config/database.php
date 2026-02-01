@@ -97,8 +97,10 @@ return [
             'search_path' => 'public',
             'sslmode' => 'require',
             'options' => [
-                \PDO::ATTR_EMULATE_PREPARES => true,
-                \PDO::PGSQL_ATTR_SSL_MODE => \PDO::PGSQL_SSL_REQUIRE,
+                // Use 1001 for PDO::PGSQL_ATTR_SSL_MODE
+                1001 => 'require',
+                // Use 3 for PDO::ATTR_EMULATE_PREPARES
+                3 => true,
             ],
         ],
 
