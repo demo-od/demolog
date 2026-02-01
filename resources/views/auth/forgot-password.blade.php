@@ -4,7 +4,9 @@
     </div>
    
     <!-- Session Status -->
+    @if(session('status'))
     <x-status>{{ session('status') }}</x-status>
+    @endif
 
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
