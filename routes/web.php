@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\PublicProfileController;
 
+
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
