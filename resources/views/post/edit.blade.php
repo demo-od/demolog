@@ -4,10 +4,25 @@
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
     <style>
-        .editor-toolbar { border-color: #e5e7eb; border-radius: 8px 8px 0 0; }
-        .CodeMirror { border-color: #e5e7eb; border-radius: 0 0 8px 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
-        .editor-statusbar { display: none; }
-        [x-cloak] { display: none !important; }
+        .editor-toolbar {
+            border-color: #e5e7eb;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .CodeMirror {
+            border-color: #e5e7eb;
+            border-radius: 0 0 8px 8px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .editor-statusbar {
+            display: none;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 
     <x-toast />
@@ -59,19 +74,18 @@
                     </div>
 
                     {{-- Markdown Content Editor --}}
-                    <div class="mb-4" 
-                         x-data="{ 
-                            init() { 
-                                new EasyMDE({ 
-                                    element: this.$refs.editor,
-                                    forceSync: true,
-                                    placeholder: 'Write your content here...',
-                                    spellChecker: false,
-                                    status: false,
-                                    minHeight: '300px'
-                                }); 
-                            } 
-                         }">
+                    <div class="mb-4" x-data="{
+                        init() {
+                            new EasyMDE({
+                                element: this.$refs.editor,
+                                forceSync: true,
+                                placeholder: 'Write your content here...',
+                                spellChecker: false,
+                                status: false,
+                                minHeight: '300px'
+                            });
+                        }
+                    }">
                         <x-input-label for="content" value="Content" />
                         <div class="mt-1">
                             <textarea x-ref="editor" name="content" id="content">{{ old('content', $post->content) }}</textarea>
@@ -83,7 +97,7 @@
                         <x-submitButton class="mb-4">UPDATE POST</x-submitButton>
                         <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 hover:underline">Cancel</a>
                     </div>
-                </form> 
+                </form>
 
                 {{-- Danger Zone --}}
                 <div class="mt-10 border-t pt-6">
@@ -94,7 +108,7 @@
                         onsubmit="return confirm('Are you sure you want to permanently delete this post?');">
                         @csrf
                         @method('DELETE')
-                        
+
                         <button type="submit"
                             class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold text-sm uppercase tracking-widest shadow-sm">
                             Delete Post
@@ -104,4 +118,8 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+        <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    @endpush
 </x-app-layout>

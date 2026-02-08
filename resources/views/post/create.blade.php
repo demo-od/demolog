@@ -22,8 +22,9 @@
                     {{-- Title --}}
                     <div>
                         <x-input-label for="title" :value="__('Title')" />
-                        <input placeholder="Enter the title" class="{{ $class }}" id="title" class="block mt-1 w-full" type="text"
-                            name="title" value="{{ @old('title') }}" required />
+                        <input placeholder="Enter the title" class="{{ $class }}" id="title"
+                            class="block mt-1 w-full" type="text" name="title" value="{{ @old('title') }}"
+                            required />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
 
@@ -70,4 +71,8 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+        <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    @endpush
 </x-app-layout>

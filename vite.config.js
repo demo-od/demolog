@@ -8,4 +8,12 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        minify: 'esbuild', // ensures smallest JS
+        rollupOptions: {
+            output: {
+                manualChunks: undefined, // optional: split vendor from app
+            },
+        },
+    },
 });
