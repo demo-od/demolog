@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-toast />
-    
+
     @php
-        $class = "w-full border-gray-300 focus:border-neutral-700 focus:ring-neutral-700 rounded-md shadow-sm";
+        $class = 'w-full border-gray-300 focus:border-neutral-700 focus:ring-neutral-700 rounded-md shadow-sm';
 
         $file_styles = "block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
             file:bg-gray-50 file:border-0
@@ -14,7 +14,7 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-8">
                 <h1 class="text-4xl font-bold mb-4">{{ $post->title }}</h1>
-                
+
                 {{-- User Avatar Section --}}
                 <div class="flex gap-4">
                     @if ($post->user->image)
@@ -22,7 +22,7 @@
                     @else
                         <x-default-image class="w-12 h-12" :name="$post->user->name" />
                     @endif
-                    
+
                     <div>
                         <x-FollowCtr :user="$post->user" class="flex gap-2 ">
                             <a href="{{ route('profile.show', $post->user) }}" class="hover:underline font-semibold">
@@ -35,7 +35,7 @@
                                 </button>
                             @endif
                         </x-FollowCtr>
-                        
+
                         <div class="flex gap-2">
                             <span class="text-gray-500 text-sm">
                                 {{ $post->readTime() }} min read &middot; {{ $post->created_at->format('M d, Y') }}
@@ -69,7 +69,12 @@
                             class="w-full rounded-md @error('content') ring-2 ring-red-500 @else border-gray-300 focus:border-neutral-700 focus:ring-neutral-700 @enderror">
 
                         <x-submitButton class="max-w-10 max-h-10 mb-4">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                            </svg>
+
                         </x-submitButton>
                     </div>
                     @error('content')
@@ -86,7 +91,7 @@
                                 @if ($comment->user->image)
                                     <img src="{{ $comment->user->image }}" class="w-6 h-6 rounded-full" alt="">
                                 @else
-                                    <x-default-image class="w-6 h-6" :name="$comment->user->name" fontSize="xs"/>
+                                    <x-default-image class="w-6 h-6" :name="$comment->user->name" fontSize="xs" />
                                 @endif
                                 <span class="text-gray-700 font-medium text-sm">{{ $comment->user->username }}</span>
                                 <span class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</span>
@@ -99,10 +104,12 @@
                             {{-- Delete Comment Button (Only for owner) --}}
                             @if (auth()->check() && $comment->user->id === auth()->id())
                                 <div class="mt-2">
-                                    <form action="{{ route('comment.delete', $comment) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                                    <form action="{{ route('comment.delete', $comment) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this comment?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 text-xs hover:underline flex items-center gap-1">
+                                        <button type="submit"
+                                            class="text-red-600 text-xs hover:underline flex items-center gap-1">
                                             <i class="fa fa-trash"></i> Delete comment
                                         </button>
                                     </form>
@@ -116,7 +123,4 @@
             </div>
         </div>
     </div>
-    @push('scripts')
-        <script src="https://kit.fontawesome.com/9c4181398c.js" crossorigin="anonymous"></script>
-    @endpush
 </x-app-layout>
