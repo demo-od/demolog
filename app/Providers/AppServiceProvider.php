@@ -29,12 +29,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(\Illuminate\Routing\UrlGenerator $url): void
     {
+        // 1. Force HTTPS only in production/staging
         if (env('APP_ENV') !== 'local') {
-        $url->forceScheme('https');
-    }
+            $url->forceScheme('https');
+        }
 
+        // 2. Share Categories with Navigation (Must be OUTSIDE the if-local check)
+        \Illuminate\Support\Facades\View::composer('layouts.navigation', function ($view) {
+            $view->with('categories', \App\Models\Category::orderBy('name')->get());
+        });
+
+        // 3. Mail Extension
         Mail::extend('gmail', function () {
-        return new GmailTransport(app(GmailService::class));
-    });
+            return new GmailTransport(app(GmailService::class));
+        });
     }
 }

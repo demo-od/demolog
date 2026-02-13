@@ -50,7 +50,14 @@
                     }
                 }" class="bg-white shadow-sm sm:rounded-lg p-10">
                     <div class="flex -mb-3">
-                        <a href="{{ route('dashboard') }}" class="text-blue-600 hover:text-blue-700 mr-4 text-[20px] mt-0.5"><i class="fa-solid fa-arrow-left"></i></a>
+                        <a href="{{ route('dashboard') }}"
+                            class="text-blue-600 hover:text-blue-700 mr-4 text-[20px] mt-0.5"><svg
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+                        </a>
                         <h2 class="text-2xl font-bold mb-6">Search for other users</h2>
                     </div>
                     <div class="relative">
