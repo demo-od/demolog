@@ -17,23 +17,23 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/api/users/search', function (Request $request) {
+    Route::get('/api/users/search', function (Illuminate\Http\Request $request) {
         $query = $request->get('q');
 
         if (!$query)
             return [];
 
-        return User::where(function ($q) use ($query) {
-            $q->where('username', 'LIKE', "%{$query}%")
-                ->orWhere('name', 'LIKE', "%{$query}%") // Keep this if you still use 'name'
-                ->orWhere('first_name', 'LIKE', "%{$query}%")
-                ->orWhere('last_name', 'LIKE', "%{$query}%")
-                // Advanced: Search for "First Last" combined
-                ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$query}%"]);
+        // Convert search term to lowercase for comparison
+        $searchTerm = strtolower($query);
+
+        return App\Models\User::where(function ($q) use ($searchTerm) {
+            $q->whereRaw('LOWER(username) LIKE ?', ["%{$searchTerm}%"])
+                ->orWhereRaw('LOWER(name) LIKE ?', ["%{$searchTerm}%"]);
         })
             ->limit(8)
-            ->get(['id', 'name', 'username', 'image', 'first_name', 'last_name']);
+            ->get(['id', 'name', 'username', 'image']);
     })->name('users.search');
+    
     Route::view('/search', 'search')->name('search');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
 
