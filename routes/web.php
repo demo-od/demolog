@@ -24,13 +24,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return [];
 
         return User::where(function ($q) use ($query) {
-            $q->where('name', 'LIKE', "%{$query}%")
-                ->orWhere('username', 'LIKE', "%{$query}%");
+            $q->where('username', 'LIKE', "%{$query}%")
+                ->orWhere('name', 'LIKE', "%{$query}%") // Keep this if you still use 'name'
+                ->orWhere('first_name', 'LIKE', "%{$query}%")
+                ->orWhere('last_name', 'LIKE', "%{$query}%")
+                // Advanced: Search for "First Last" combined
+                ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$query}%"]);
         })
             ->limit(8)
-            ->get(['id', 'name', 'username', 'image']); // Only get necessary columns for better performance
+            ->get(['id', 'name', 'username', 'image', 'first_name', 'last_name']);
     })->name('users.search');
-    
     Route::view('/search', 'search')->name('search');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
 

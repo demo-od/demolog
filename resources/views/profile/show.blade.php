@@ -10,7 +10,9 @@
 
                     <x-FollowCtr :user="$user" class="flex flex-col items-center text-center pb-8 border-b">
                         @if ($user->image)
-                            <img src="{{ $user->image }}" alt="" class="w-24 h-24">
+                        <div class="circle-container w-24 h-24">
+                            <img src="{{ $user->image }}" alt="" >
+                        </div>
                         @else
                             <x-default-image class="w-24 h-24" :name="$user->name" fontSize="4xl"/>
                         @endif
