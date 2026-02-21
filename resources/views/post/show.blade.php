@@ -64,7 +64,7 @@
                 <form action="{{ route('post.comment', $post) }}" method="POST">
                     @csrf
                     <div class="flex items-center justify-center gap-2">
-                        <input type="text" name="content" id="content" value="{{ old('content') }}"
+                        <input required type="text" name="content" id="content" value="{{ old('content') }}"
                             placeholder="Leave a comment"
                             class="w-full rounded-md @error('content') ring-2 ring-red-500 @else border-gray-300 focus:border-neutral-700 focus:ring-neutral-700 @enderror">
 
