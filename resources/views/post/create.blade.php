@@ -8,7 +8,7 @@
     file:py-3 file:px-4";
     @endphp
     <div class="py-4">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-8">
                 <form enctype="multipart/form-data" action="{{ route('posts.store') }}" method="post">
                     @csrf

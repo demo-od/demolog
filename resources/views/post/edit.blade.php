@@ -27,7 +27,7 @@
 
     <x-toast />
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-8 shadow-sm sm:rounded-lg">
                 <h2 class="text-2xl font-bold mb-6">Edit Post: {{ $post->title }}</h2>
 

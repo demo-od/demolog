@@ -11,7 +11,7 @@
     @endphp
 
     <div class="py-4">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-8">
                 <h1 class="text-4xl font-bold mb-4">{{ $post->title }}</h1>
 
